@@ -3,6 +3,7 @@ package com.wisata.prod.service.impl;
 import com.wisata.prod.entity.Favourite;
 import com.wisata.prod.entity.User;
 import com.wisata.prod.entity.Destination;
+import com.wisata.prod.entity.FavouriteId;
 import com.wisata.prod.repository.FavouriteRepository;
 import com.wisata.prod.repository.UserRepository;
 import com.wisata.prod.repository.DestinationRepository;
@@ -39,7 +40,8 @@ public class FavouriteServiceImpl implements FavouriteService {
     }
 
     @Override
-    public void removeFavourite(Long favouriteId) {
+    public void removeFavourite(Long userId, Long destinationId) {
+        FavouriteId favouriteId = new FavouriteId(userId, destinationId);
         favouriteRepository.deleteById(favouriteId);
     }
 }

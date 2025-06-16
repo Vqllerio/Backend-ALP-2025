@@ -29,9 +29,9 @@ public class FavouriteController {
         return new ResponseEntity<>(favourites, HttpStatus.OK);
     }
 
-    @DeleteMapping("{favouriteId}")
-    public ResponseEntity<String> removeFavourite(@PathVariable Long favouriteId) {
-        favouriteService.removeFavourite(favouriteId);
+    @DeleteMapping
+    public ResponseEntity<String> removeFavourite(@RequestParam Long userId, @RequestParam Long destinationId) {
+        favouriteService.removeFavourite(userId, destinationId);
         return new ResponseEntity<>("Favourite removed successfully!", HttpStatus.OK);
     }
 }
