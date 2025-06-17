@@ -26,8 +26,8 @@ public class DestinationServiceImpl implements DestinationService {
 
     @Override
     public Destination getDestinationById(Long destinationId) {
-        Optional<Destination> optionalDestination = destinationRepository.findById(destinationId);
-        return optionalDestination.get();
+        return destinationRepository.findById(destinationId)
+            .orElseThrow(() -> new RuntimeException("Destination not found with id: " + destinationId));
     }
 
     @Override
@@ -37,7 +37,8 @@ public class DestinationServiceImpl implements DestinationService {
 
     @Override
     public Destination updateDestination(Destination destination) {
-        Destination existingDestination = destinationRepository.findById(destination.getId()).get();
+        Destination existingDestination = destinationRepository.findById(destination.getId())
+            .orElseThrow(() -> new RuntimeException("Destination not found with id: " + destination.getId()));
         existingDestination.setTitle(destination.getTitle());
         existingDestination.setLocation(destination.getLocation());
         existingDestination.setDescription(destination.getDescription());
@@ -52,7 +53,9 @@ public class DestinationServiceImpl implements DestinationService {
         destinationRepository.deleteById(destinationId);
     }
 
+    //Rating submission logic
     @Override
+    // Takes destinationId and rating as parameters
     public Destination submitRating(Long destinationId, int rating) {
         Destination destination = getDestinationById(destinationId);
         float currentRating = destination.getRating();
@@ -61,9 +64,13 @@ public class DestinationServiceImpl implements DestinationService {
 
         // Update the destination's rating
         float newRating = ((currentRating * currentReviews) + rating) / (currentReviews + 1);
+        // Round to one decimal place
+        newRating = Math.round(newRating * 10) / 10.0f;
+        // Update the destination's reviews and userRating
         destination.setRating(newRating);
         destination.setReviews(currentReviews + 1);
         destination.setUserRating(currentUserRating + 1);
+        // Save the updated destination
         return destinationRepository.save(destination);
     }
 }

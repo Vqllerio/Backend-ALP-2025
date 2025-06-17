@@ -32,10 +32,10 @@ public class Destination {
     @Column(nullable = false)
     private String image;
 
-    @Column(nullable = false)
+    @Column(nullable = true)
     private float rating;
 
-    @Column(nullable = false)
+    @Column(nullable = true)
     private int reviews;
 
     @Column(nullable = false)
