@@ -64,8 +64,8 @@ public class DestinationServiceImpl implements DestinationService {
 
         // Update the destination's rating
         float newRating = ((currentRating * currentReviews) + rating) / (currentReviews + 1);
-        // Round to one decimal place
-        newRating = Math.round(newRating * 10) / 10.0f;
+        // Round to four decimal places
+        newRating = Math.round(newRating * 10000) / 10000.0f;
         // Update the destination's reviews and userRating
         destination.setRating(newRating);
         destination.setReviews(currentReviews + 1);
