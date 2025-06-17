@@ -15,5 +15,6 @@ public interface DestinationService {
 
     void deleteDestination(Long id);
 
+    //methods to submit a rating for a destination
     Destination submitRating(Long destinationId, int rating);
 }
