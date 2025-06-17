@@ -51,4 +51,19 @@ public class DestinationServiceImpl implements DestinationService {
     public void deleteDestination(Long destinationId) {
         destinationRepository.deleteById(destinationId);
     }
+
+    @Override
+    public Destination submitRating(Long destinationId, int rating) {
+        Destination destination = getDestinationById(destinationId);
+        float currentRating = destination.getRating();
+        int currentReviews = destination.getReviews();
+        int currentUserRating = destination.getUserRating();
+
+        // Update the destination's rating
+        float newRating = ((currentRating * currentReviews) + rating) / (currentReviews + 1);
+        destination.setRating(newRating);
+        destination.setReviews(currentReviews + 1);
+        destination.setUserRating(currentUserRating + 1);
+        return destinationRepository.save(destination);
+    }
 }

@@ -23,24 +23,24 @@ public class Destination {
     @Column(nullable = false, unique = true)
     private String title;
 
-    @Column(nullable = false, unique = true)
+    @Column(nullable = false)
     private String location;
 
-    @Column(nullable = false, unique = true)
+    @Column(nullable = false)
     private String description;
 
-    @Column(nullable = false, unique = true)
+    @Column(nullable = false)
     private String image;
 
-    // @Column(nullable = false, unique = true)
-    // private float rating;
+    @Column(nullable = false)
+    private float rating;
 
-    // @Column(nullable = false, unique = true)
-    // private int reviews;
+    @Column(nullable = false)
+    private int reviews;
 
-    // @Column(nullable = false, unique = true)
-    // private int userRating;
+    @Column(nullable = false)
+    private int userRating;
 
-    @Column(nullable = false, unique = true)
+    @Column(nullable = false)
     private String category;
 }
