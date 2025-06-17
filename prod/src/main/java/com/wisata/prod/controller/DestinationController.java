@@ -43,6 +43,12 @@ public class DestinationController {
         return new ResponseEntity<>(updatedDestination, HttpStatus.OK);
     }
 
+    @PostMapping("/{id}/rating")
+    public ResponseEntity<Destination> submitRating(@PathVariable Long id, @RequestParam int rating) {
+    Destination updated = destinationService.submitRating(id, rating);
+    return ResponseEntity.ok(updated);
+}
+
     @DeleteMapping("{id}")
     public ResponseEntity<String> deleteDestination(@PathVariable("id") Long DestinationId){
         destinationService.deleteDestination(DestinationId);
