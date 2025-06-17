@@ -14,4 +14,6 @@ public interface DestinationService {
     Destination updateDestination(Destination destination);
 
     void deleteDestination(Long id);
+
+    Destination submitRating(Long destinationId, int rating);
 }
