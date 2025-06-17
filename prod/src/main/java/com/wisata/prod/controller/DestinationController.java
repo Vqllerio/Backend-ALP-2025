@@ -17,18 +17,22 @@ public class DestinationController {
     private DestinationService destinationService;
 
     @PostMapping
+    // http://localhost:8080/api/destinations
+    // This endpoint creates a new destination
     public ResponseEntity<Destination> createDestination(@RequestBody Destination Destination){
         Destination savedDestination = destinationService.createDestination(Destination);
         return new ResponseEntity<>(savedDestination, HttpStatus.CREATED);
     }
 
     @GetMapping("{id}")
+    // Example: http://localhost:8080/api/destinations/1
     public ResponseEntity<Destination> getDestinationById(@PathVariable("id") Long DestinationId){
         Destination Destination = destinationService.getDestinationById(DestinationId);
         return new ResponseEntity<>(Destination, HttpStatus.OK);
     }
 
     @GetMapping
+    // Example: http://localhost:8080/api/destinations
     public ResponseEntity<List<Destination>> getAllDestinations(){
         List<Destination> Destinations = destinationService.getAllDestinations();
         return new ResponseEntity<>(Destinations, HttpStatus.OK);
@@ -42,6 +46,14 @@ public class DestinationController {
         Destination updatedDestination = destinationService.updateDestination(Destination);
         return new ResponseEntity<>(updatedDestination, HttpStatus.OK);
     }
+
+    @PostMapping("/{id}/rating")
+    // Example: http://localhost:8080/api/destinations/1/rating?rating=5
+    // Endpoint for rating submission
+    public ResponseEntity<Destination> submitRating(@PathVariable Long id, @RequestParam int rating) {
+    Destination updated = destinationService.submitRating(id, rating);
+    return ResponseEntity.ok(updated);
+}
 
     @DeleteMapping("{id}")
     public ResponseEntity<String> deleteDestination(@PathVariable("id") Long DestinationId){
