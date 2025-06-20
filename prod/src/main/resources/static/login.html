@@ -89,36 +89,37 @@
 
     setInterval(moveSlide, 3000);
 
-    document.getElementById('loginForm').addEventListener('submit', function (e) {
+    document.getElementById('loginForm').addEventListener('submit', async function (e) {
       e.preventDefault();
 
       const email = document.getElementById('email').value;
       const password = document.getElementById('password').value;
       const errorMessage = document.getElementById('errorMessage');
-
-      // Reset error
       errorMessage.classList.add('hidden');
 
-      // Validasi
       if (!email || !password) {
         errorMessage.textContent = 'Email dan password harus diisi!';
         errorMessage.classList.remove('hidden');
         return;
       }
 
-      // Cari user di localStorage atau data awal
-      let storedUsers = JSON.parse(localStorage.getItem('users')) || users;
-      const user = storedUsers.find(u => u.email === email && u.password === password);
-
-      if (user) {
-        // Simpan status login di sessionStorage (akan hilang saat browser ditutup)
-        sessionStorage.setItem('isLoggedIn', 'true');
-        sessionStorage.setItem('currentUser', JSON.stringify(user));
-
-        // Redirect ke halaman utama
-        window.location.href = 'index.html';
-      } else {
-        errorMessage.textContent = 'Email atau password salah!';
+      try {
+        const response = await fetch('/api/users/login', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ email, password })
+        });
+        if (response.ok) {
+          const user = await response.json();
+          sessionStorage.setItem('isLoggedIn', 'true');
+          sessionStorage.setItem('currentUser', JSON.stringify(user));
+          window.location.href = 'index.html';
+        } else {
+          errorMessage.textContent = 'Email atau password salah!';
+          errorMessage.classList.remove('hidden');
+        }
+      } catch (err) {
+        errorMessage.textContent = 'Terjadi kesalahan koneksi ke server.';
         errorMessage.classList.remove('hidden');
       }
     });
