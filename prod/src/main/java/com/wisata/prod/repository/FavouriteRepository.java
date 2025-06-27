@@ -16,4 +16,6 @@ public interface FavouriteRepository extends JpaRepository<Favourites, com.wisat
 
     @Transactional
     void deleteByIdUserAndIdDestination(Integer userId, Integer destinationId);
+
+    List<Favourites> findByUserId(Integer userId);
 }
