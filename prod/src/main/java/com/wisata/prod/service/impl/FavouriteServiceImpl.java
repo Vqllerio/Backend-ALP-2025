@@ -23,7 +23,7 @@ public class FavouriteServiceImpl implements FavouriteService {
     private final DestinationRepository destinationRepository;
 
     @Override
-    public Favourites addFavourite(Long userId, Long destinationId) {
+    public Favourites addFavourite(Integer userId, Integer destinationId) {
         User user = userRepository.findById(userId).orElseThrow(() -> new RuntimeException("User not found"));
         Destination destination = destinationRepository.findById(destinationId)
                 .orElseThrow(() -> new RuntimeException("Destination not found"));
@@ -36,12 +36,12 @@ public class FavouriteServiceImpl implements FavouriteService {
     }
 
     @Override
-    public List<Favourites> getFavouritesByUserId(Long userId) {
+    public List<Favourites> getFavouritesByUserId(Integer userId) {
         return favouriteRepository.findByUserId(userId);
     }
 
     @Override
-    public void removeFavourite(Long userId, Long destinationId) {
+    public void removeFavourite(Integer userId, Integer destinationId) {
         FavouriteId favouriteId = new FavouriteId(userId, destinationId);
         favouriteRepository.deleteById(favouriteId);
     }
