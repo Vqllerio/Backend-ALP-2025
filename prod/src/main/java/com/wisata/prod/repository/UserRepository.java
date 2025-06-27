@@ -1,11 +1,14 @@
 package com.wisata.prod.repository;
 
+import com.wisata.prod.entity.User;
+import org.springframework.data.jpa.repository.JpaRepository;
 import java.util.Optional;
 
-import org.springframework.data.jpa.repository.JpaRepository;
+public interface UserRepository extends JpaRepository<User, Integer> {
 
-import com.wisata.prod.entity.User;
+    // Find user by email
+    Optional<User> findByEmail(String email);
 
-public interface UserRepository extends JpaRepository<User, Long> {
-    User findByEmail(String email);
+    // Login validation
+    User findByEmailAndPassword(String email, String password);
 }
