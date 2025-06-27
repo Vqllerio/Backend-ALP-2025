@@ -31,4 +31,20 @@ public class Favourites {
         this.idDestination = idDestination;
     }
 
+    public void setUser(User user) {
+        if (user != null) {
+            this.idUser = user.getIdUser();
+        } else {
+            this.idUser = null;
+        }
+    }
+
+    public void setDestination(Destination destination) {
+        if (destination != null) {
+            this.idDestination = destination.getIdDestination();
+        } else {
+            this.idDestination = null;
+        }
+    }
+
 }
