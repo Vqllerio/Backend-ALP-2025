@@ -21,6 +21,7 @@ public class FavouriteController {
     private FavouriteRepository favouriteRepository;
 
     // Get all favorites for a user
+    //Example: http://localhost:8080/api/favourites?userId=1
     @GetMapping
     public List<Favourites> getUserFavorites(@RequestParam Integer userId) {
         return favouriteRepository.findByIdUser(userId);
@@ -36,6 +37,7 @@ public class FavouriteController {
     }
 
     // Toggle favorite status
+    // Example: http://localhost:8080/api/favourites?userId=1&destinationId=2
     @PostMapping
     public ResponseEntity<?> toggleFavorite(
             @RequestParam Integer userId,
