@@ -7,8 +7,9 @@ import org.springframework.web.bind.annotation.RestController;
 @RestController
 public class HomeController {
 
-    @GetMapping("/")
-    public String home() {
-        return "Welcome to the application!";
-    }
+// Remove or comment out this method to allow static index.html to be served
+//    @GetMapping("/index.html")
+//    public String home() {
+//        return "Welcome to the application!";
+//    }
 }
