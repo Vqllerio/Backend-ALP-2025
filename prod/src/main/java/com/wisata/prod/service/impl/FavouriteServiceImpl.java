@@ -1,6 +1,6 @@
 package com.wisata.prod.service.impl;
 
-import com.wisata.prod.entity.Favourite;
+import com.wisata.prod.entity.Favourites;
 import com.wisata.prod.entity.User;
 import com.wisata.prod.entity.Destination;
 import com.wisata.prod.entity.FavouriteId;
@@ -23,11 +23,11 @@ public class FavouriteServiceImpl implements FavouriteService {
     private final DestinationRepository destinationRepository;
 
     @Override
-    public Favourite addFavourite(Long userId, Long destinationId) {
+    public Favourites addFavourite(Long userId, Long destinationId) {
         User user = userRepository.findById(userId).orElseThrow(() -> new RuntimeException("User not found"));
         Destination destination = destinationRepository.findById(destinationId).orElseThrow(() -> new RuntimeException("Destination not found"));
 
-        Favourite favourite = new Favourite();
+        Favourites favourite = new Favourites();
         favourite.setUser(user);
         favourite.setDestination(destination);
 
@@ -35,7 +35,7 @@ public class FavouriteServiceImpl implements FavouriteService {
     }
 
     @Override
-    public List<Favourite> getFavouritesByUserId(Long userId) {
+    public List<Favourites> getFavouritesByUserId(Long userId) {
         return favouriteRepository.findByUserId(userId);
     }
 

@@ -1,6 +1,6 @@
 package com.wisata.prod.controller;
 
-import com.wisata.prod.entity.Favourite;
+import com.wisata.prod.entity.Favourites;
 import com.wisata.prod.service.FavouriteService;
 
 import lombok.AllArgsConstructor;
@@ -21,8 +21,8 @@ public class FavouriteController {
     // Endpoint to add a favourite destination for a user
     // Example: http://localhost:8080/api/favourites?userId=1&destinationId=2
     // Uses User ID and Destination ID as request parameters
-    public ResponseEntity<Favourite> addFavourite(@RequestParam Long userId, @RequestParam Long destinationId) {
-        Favourite favourite = favouriteService.addFavourite(userId, destinationId);
+    public ResponseEntity<Favourites> addFavourite(@RequestParam Long userId, @RequestParam Long destinationId) {
+        Favourites favourite = favouriteService.addFavourite(userId, destinationId);
         return new ResponseEntity<>(favourite, HttpStatus.CREATED);
     }
 
@@ -30,8 +30,8 @@ public class FavouriteController {
     // TO get all favourites for a specific user
     // Example: http://localhost:8080/api/favourites/1
     // Uses User ID as a path variable
-    public ResponseEntity<List<Favourite>> getFavouritesByUserId(@PathVariable Long userId) {
-        List<Favourite> favourites = favouriteService.getFavouritesByUserId(userId);
+    public ResponseEntity<List<Favourites>> getFavouritesByUserId(@PathVariable Long userId) {
+        List<Favourites> favourites = favouriteService.getFavouritesByUserId(userId);
         return new ResponseEntity<>(favourites, HttpStatus.OK);
     }
 
