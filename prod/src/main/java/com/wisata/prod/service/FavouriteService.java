@@ -1,11 +1,11 @@
-package com.wisata.prod.service;
+// package com.wisata.prod.service;
 
-import com.wisata.prod.entity.Favourites;
+// import com.wisata.prod.entity.Favourites;
 
-import java.util.List;
+// import java.util.List;
 
-public interface FavouriteService {
-    Favourites addFavourite(Long userId, Long destinationId);
-    List<Favourites> getFavouritesByUserId(Long userId);
-    void removeFavourite(Long userId, Long destinationId);
-}
+// public interface FavouriteService {
+//     Favourites addFavourite(Long userId, Long destinationId);
+//     List<Favourites> getFavouritesByUserId(Long userId);
+//     void removeFavourite(Long userId, Long destinationId);
+// }

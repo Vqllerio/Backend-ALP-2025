@@ -1,40 +1,42 @@
-// package com.wisata.prod.controller;
+package com.wisata.prod.controller;
 
-// import org.springframework.beans.factory.annotation.Autowired;
-// import org.springframework.web.bind.annotation.CrossOrigin;
-// import org.springframework.web.bind.annotation.PostMapping;
-// import org.springframework.web.bind.annotation.RequestBody;
-// import org.springframework.web.bind.annotation.RequestMapping;
-// import org.springframework.web.bind.annotation.RestController;
+import java.util.Optional;
 
-// import com.wisata.prod.entity.User;
-// import com.wisata.prod.repository.UserRepository;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.CrossOrigin;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
 
-// @CrossOrigin
-// @RestController
-// @RequestMapping("/api/auth")
-// public class AuthController {
+import com.wisata.prod.entity.User;
+import com.wisata.prod.repository.UserRepository;
 
-//     @Autowired
-//     private UserRepository userRepository;
+@CrossOrigin
+@RestController
+@RequestMapping("/api/auth")
+public class AuthController {
 
-//     // REGISTER
-//     @PostMapping("/register")
-//     public String register(@RequestBody User user) {
-//         if (userRepository.findByEmail(user.getEmail()) != null) {
-//             return "Email sudah terdaftar!";
-//         }
-//         userRepository.save(user);
-//         return "Akun berhasil dibuat!";
-//     }
+    @Autowired
+    private UserRepository userRepository;
 
-//     // LOGIN
-//     @PostMapping("/login")
-//     public String login(@RequestBody User loginUser) {
-//         User user = userRepository.findByEmail(loginUser.getEmail());
-//         if (user != null && user.getPassword().equals(loginUser.getPassword())) {
-//             return "Login berhasil!";
-//         }
-//         return "Email atau password salah!";
-//     }
-// }
+    // REGISTER
+    @PostMapping("/register")
+    public String register(@RequestBody User user) {
+        if (userRepository.findByEmail(user.getEmail()) != null) {
+            return "Email sudah terdaftar!";
+        }
+        userRepository.save(user);
+        return "Akun berhasil dibuat!";
+    }
+
+    // LOGIN
+    @PostMapping("/login")
+    public String login(@RequestBody User loginUser) {
+        Optional<User> user = userRepository.findByEmail(loginUser.getEmail());
+        if (user.isPresent() && user.get().getPassword().equals(loginUser.getPassword())) {
+            return "Login berhasil!";
+        }
+        return "Email atau password salah!";
+    }
+}

@@ -3,6 +3,9 @@ package com.wisata.prod.controller;
 import lombok.AllArgsConstructor;
 import com.wisata.prod.entity.User;
 import com.wisata.prod.service.UserService;
+import com.wisata.prod.repository.UserRepository;
+
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -16,6 +19,9 @@ import java.util.Map;
 public class UserController {
 
     private UserService userService;
+
+    @Autowired
+    private UserRepository userRepository;
 
     // build create User REST API
     @PostMapping
@@ -67,5 +73,13 @@ public class UserController {
         } else {
             return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("Email atau password salah!");
         }
+    }
+
+    // User registration
+    @PostMapping("/register")
+    public ResponseEntity<User> registerUser(@RequestBody User user) {
+        // Add validation logic here
+        User savedUser = userRepository.save(user);
+        return ResponseEntity.ok(savedUser);
     }
 }
