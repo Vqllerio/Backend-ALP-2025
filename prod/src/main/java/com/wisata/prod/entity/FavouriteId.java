@@ -1,17 +1,15 @@
 package com.wisata.prod.entity;
 
 import lombok.AllArgsConstructor;
-import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
 
 import java.io.Serializable;
 import java.util.Objects;
 
-import jakarta.persistence.criteria.CriteriaBuilder.In;
 
 @NoArgsConstructor
 @AllArgsConstructor
-@EqualsAndHashCode
+
 public class FavouriteId implements Serializable {
     private Integer idUser;
     private Integer idDestination;
