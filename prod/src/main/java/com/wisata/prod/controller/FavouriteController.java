@@ -1,43 +1,58 @@
 package com.wisata.prod.controller;
 
-import com.wisata.prod.entity.Favourite;
-import com.wisata.prod.service.FavouriteService;
+import com.wisata.prod.entity.Favourites;
+import com.wisata.prod.repository.FavouriteRepository;
 
 import lombok.AllArgsConstructor;
+
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.Map;
 
 @RestController
-@AllArgsConstructor
 @RequestMapping("api/favourites")
 public class FavouriteController {
 
-    private final FavouriteService favouriteService;
+    @Autowired
+    private FavouriteRepository favouriteRepository;
 
-    @PostMapping
-    // Endpoint to add a favourite destination for a user
+    // Get all favorites for a user
+    //Example: http://localhost:8080/api/favourites?userId=1
+    @GetMapping
+    public List<Favourites> getUserFavorites(@RequestParam Integer userId) {
+        return favouriteRepository.findByIdUser(userId);
+    }
+
+    // Check if a destination is favorited by user
+    @GetMapping("/check")
+    public ResponseEntity<Boolean> checkFavorite(
+            @RequestParam Integer userId,
+            @RequestParam Integer destinationId) {
+        boolean exists = favouriteRepository.existsByIdUserAndIdDestination(userId, destinationId);
+        return ResponseEntity.ok(exists);
+    }
+
+    // Toggle favorite status
     // Example: http://localhost:8080/api/favourites?userId=1&destinationId=2
-    // Uses User ID and Destination ID as request parameters
-    public ResponseEntity<Favourite> addFavourite(@RequestParam Long userId, @RequestParam Long destinationId) {
-        Favourite favourite = favouriteService.addFavourite(userId, destinationId);
-        return new ResponseEntity<>(favourite, HttpStatus.CREATED);
-    }
+    @PostMapping
+    public ResponseEntity<?> toggleFavorite(
+            @RequestParam Integer userId,
+            @RequestParam Integer destinationId) {
 
-    @GetMapping("{userId}")
-    // TO get all favourites for a specific user
-    // Example: http://localhost:8080/api/favourites/1
-    // Uses User ID as a path variable
-    public ResponseEntity<List<Favourite>> getFavouritesByUserId(@PathVariable Long userId) {
-        List<Favourite> favourites = favouriteService.getFavouritesByUserId(userId);
-        return new ResponseEntity<>(favourites, HttpStatus.OK);
-    }
-
-    @DeleteMapping
-    public ResponseEntity<String> removeFavourite(@RequestParam Long userId, @RequestParam Long destinationId) {
-        favouriteService.removeFavourite(userId, destinationId);
-        return new ResponseEntity<>("Favourite removed successfully!", HttpStatus.OK);
+        // Check if already favorited
+        if (favouriteRepository.existsByIdUserAndIdDestination(userId, destinationId)) {
+            favouriteRepository.deleteByIdUserAndIdDestination(userId, destinationId);
+            return ResponseEntity.ok().body(Map.of("isFavorite", false));
+        } else {
+            Favourites newFavorite = new Favourites();
+            newFavorite.setIdUser(userId);
+            newFavorite.setIdDestination(destinationId);
+            favouriteRepository.save(newFavorite);
+            return ResponseEntity.ok().body(Map.of("isFavorite", true));
+        }
     }
 }

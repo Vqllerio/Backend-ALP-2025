@@ -3,6 +3,9 @@ package com.wisata.prod.controller;
 import lombok.AllArgsConstructor;
 import com.wisata.prod.entity.User;
 import com.wisata.prod.service.UserService;
+import com.wisata.prod.repository.UserRepository;
+
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -17,6 +20,9 @@ public class UserController {
 
     private UserService userService;
 
+    @Autowired
+    private UserRepository userRepository;
+
     // build create User REST API
     @PostMapping
     public ResponseEntity<User> createUser(@RequestBody User user){
@@ -27,7 +33,7 @@ public class UserController {
     // build get user by id REST API
     // http://localhost:8080/api/users/1
     @GetMapping("{id}")
-    public ResponseEntity<User> getUserById(@PathVariable("id") Long userId){
+    public ResponseEntity<User> getUserById(@PathVariable("id") Integer userId){
         User user = userService.getUserById(userId);
         return new ResponseEntity<>(user, HttpStatus.OK);
     }
@@ -43,16 +49,16 @@ public class UserController {
     // Build Update User REST API
     @PutMapping("{id}")
     // http://localhost:8080/api/users/1
-    public ResponseEntity<User> updateUser(@PathVariable("id") Long userId,
+    public ResponseEntity<User> updateUser(@PathVariable("id") Integer userId,
                                            @RequestBody User user){
-        user.setId(userId);
+        user.setIdUser(userId);
         User updatedUser = userService.updateUser(user);
         return new ResponseEntity<>(updatedUser, HttpStatus.OK);
     }
 
     // Build Delete User REST API
     @DeleteMapping("{id}")
-    public ResponseEntity<String> deleteUser(@PathVariable("id") Long userId){
+    public ResponseEntity<String> deleteUser(@PathVariable("id") Integer userId){
         userService.deleteUser(userId);
         return new ResponseEntity<>("User successfully deleted!", HttpStatus.OK);
     }
@@ -67,5 +73,13 @@ public class UserController {
         } else {
             return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("Email atau password salah!");
         }
+    }
+
+    // User registration
+    @PostMapping("/register")
+    public ResponseEntity<User> registerUser(@RequestBody User user) {
+        // Add validation logic here
+        User savedUser = userRepository.save(user);
+        return ResponseEntity.ok(savedUser);
     }
 }
